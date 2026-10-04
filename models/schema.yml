@@ -1,0 +1,10 @@
+version: 2
+models:
+  - name: clean_employees
+    columns:
+      - name: emp_id
+        tests: [not_null, unique]
+  - name: final_dept_salary_summary
+    columns:
+      - name: department
+        tests: [not_null]
