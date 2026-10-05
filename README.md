@@ -26,3 +26,15 @@ After the fixes, department counts and average salaries match the legacy output.
 
 ## Stack
 Snowflake, dbt Core 1.9, dbt-snowflake, Python 3.12
+
+## Airflow Orchestration
+`dags/etl_dbt_pipeline.py` is an Airflow DAG that runs the full pipeline daily:
+
+`run_etl` (Python ETL: inbox -> RAW) -> `dbt_run` (CLEAN, FINAL models) -> `dbt_test` (3 data tests)
+
+- Schedule: `@daily`, `catchup=False`
+- Retries: 2, with a 2-minute delay between attempts
+- Runs on Airflow 3.0.6 inside WSL2 (Ubuntu), Python 3.12
+- Credentials come from environment variables, never from the repo
+
+![Airflow run](docs_images/airflow_graph.png)
